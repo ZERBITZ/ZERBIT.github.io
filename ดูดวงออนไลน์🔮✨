@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>เกมดูดวงไพ่ยิปซี</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      background: linear-gradient(135deg, #f06, #48c6ef);
+      color: white;
+      text-align: center;
+      margin-top: 50px;
+      padding: 20px;
+    }
+    h1 {
+      font-size: 36px;
+      margin-bottom: 20px;
+      font-weight: bold;
+    }
+    .card {
+      width: 150px;
+      height: 220px;
+      margin: 10px;
+      display: inline-block;
+      border: 2px solid #fff;
+      background-color: rgba(255, 255, 255, 0.2);
+      border-radius: 12px;
+      padding: 10px;
+      cursor: pointer;
+      font-size: 40px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .card:hover {
+      transform: scale(1.1);
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5);
+    }
+    .result {
+      margin-top: 30px;
+      font-size: 24px;
+      color: #fff;
+      background-color: rgba(0, 0, 0, 0.7);
+      padding: 20px;
+      border-radius: 10px;
+      max-width: 80%;
+      margin-left: auto;
+      margin-right: auto;
+      text-align: left;
+    }
+    .card-container {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .card-container p {
+      font-size: 20px;
+      margin-top: 10px;
+    }
+    #info-button {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      padding: 10px 20px;
+      background-color: #000;
+      color: white;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    .input-container {
+      margin-top: 20px;
+      background-color: rgba(0, 0, 0, 0.6);
+      padding: 15px;
+      border-radius: 10px;
+      width: 80%;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .fortune-container {
+      margin-top: 30px;
+      background-color: rgba(0, 0, 0, 0.7);
+      padding: 15px;
+      border-radius: 10px;
+    }
+    .developer-info {
+      display: none;
+      background-color: rgba(0, 0, 0, 0.9);
+      color: white;
+      padding: 20px;
+      border-radius: 10px;
+      width: 80%;
+      margin: 50px auto;
+      text-align: left;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5);
+    }
+    .developer-info h3 {
+      margin-bottom: 10px;
+    }
+    .developer-info p {
+      font-size: 16px;
+    }
+    .close-info {
+      background-color: #f06;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      cursor: pointer;
+      border-radius: 5px;
+      font-size: 18px;
+      margin-top: 20px;
+    }
+    .guide-container {
+      margin-top: 30px;
+      background-color: rgba(0, 0, 0, 0.7);
+      padding: 15px;
+      border-radius: 10px;
+      text-align: left;
+      color: white;
+    }
+
+    /* Style for comment section */
+    .comment-section {
+      margin-top: 50px;
+      background-color: rgba(0, 0, 0, 0.7);
+      padding: 20px;
+      border-radius: 10px;
+      color: white;
+      max-width: 80%;
+      margin-left: auto;
+      margin-right: auto;
+      text-align: left;
+    }
+
+    .input-comment textarea {
+      width: 100%;
+      padding: 10px;
+      font-size: 16px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+      margin-bottom: 10px;
+    }
+
+    .comments-container {
+      max-height: 300px;
+      overflow-y: auto;
+      margin-top: 20px;
+    }
+
+    .comment {
+      background-color: rgba(255, 255, 255, 0.1);
+      padding: 10px;
+      border-radius: 8px;
+      margin-bottom: 10px;
+    }
+
+    /* Hide game content initially */
+    #game-container {
+      display: none;
+    }
+
+    /* Style for login and sign-up forms */
+    .login-signup-container {
+      margin-top: 50px;
+      background-color: rgba(0, 0, 0, 0.7);
+      padding: 20px;
+      border-radius: 10px;
+      color: white;
+      max-width: 80%;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .login-signup-container input {
+      padding: 10px;
+      font-size: 18px;
+      width: 100%;
+      margin-bottom: 10px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+    .login-signup-container button {
+      padding: 10px 20px;
+      background-color: #f06;
+      color: white;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 18px;
+    }
+  </style>
+</head>
+<body>
+  <div id="login-signup-container" class="login-signup-container">
+    <h2>เข้าสู่ระบบ</h2>
+    <input type="text" id="username" placeholder="ชื่อผู้ใช้งาน">
+    <input type="password" id="password" placeholder="รหัสผ่าน">
+    <button onclick="login()">เข้าสู่ระบบ</button>
+    <p>ยังไม่มีบัญชี? <button onclick="showSignupForm()">สมัครสมาชิก</button></p>
+    <div id="signup-form" style="display: none;">
+      <h2>สมัครสมาชิก</h2>
+      <input type="text" id="new-username" placeholder="ชื่อผู้ใช้งาน">
+      <input type="password" id="new-password" placeholder="รหัสผ่าน">
+      <button onclick="signup()">สมัครสมาชิก</button>
+    </div>
+  </div>
+
+  <!-- Game container (hidden until logged in) -->
+  <div id="game-container">
+    <button id="info-button" onclick="showDeveloperInfo()">ข้อมูลนักพัฒนา</button>
+    <h1>เกมดูดวงไพ่ยิปซี</h1>
+    <p>เลือกไพ่เพื่อดูดวงของคุณ</p>
+    <div id="guide-container" class="guide-container">
+      <h2>วิธีการเล่น</h2>
+      <p>1. กรอกชื่อของคุณเพื่อรับหมายเลขโชคดี</p>
+      <p>2. เลือกไพ่ที่มีหมายเลขตรงกับเลขโชคดีของคุณ</p>
+    </div>
+    <div id="name-input-container" class="input-container">
+      <h2>กรอกชื่อเล่นของคุณเพื่อรับเลขโชคดี</h2>
+      <input type="text" id="nickname-input" placeholder="กรอกชื่อเล่น">
+      <button onclick="generateLuckyNumber()">สุ่มเลขโชคดี</button>
+      <div id="lucky-number-result"></div>
+    </div>
+    <div id="cards-container" class="card-container">
+      <!-- ไพ่ทั้งหมดจะปรากฏที่นี่ -->
+    </div>
+    <div id="result" class="result"></div>
+    <div class="fortune-container">
+      <h2>ทำนายดวง</h2>
+      <div id="fortune-result"></div>
+    </div>
+
+    <!-- คอมเมนต์ -->
+    <div class="comment-section">
+      <h2>คอมเมนต์</h2>
+      <div class="input-comment">
+        <textarea id="comment-input" placeholder="เขียนคอมเมนต์ของคุณที่นี่" rows="4"></textarea>
+        <button onclick="addComment()">เพิ่มคอมเมนต์</button>
+      </div>
+      <div id="comments-container" class="comments-container"></div>
+    </div>
+
+    <!-- ข้อมูลนักพัฒนา -->
+    <div id="developer-info" class="developer-info">
+      <h3>เกี่ยวกับผู้พัฒนา</h3>
+      <p>เว็บไซต์นี้ถูกพัฒนาโดย เมอร์วิ้น วินลิค (Merwin Winlick), ผู้ที่มีความสนใจในการสร้างประสบการณ์ที่น่าสนใจในด้านการทำนายดวง และการพัฒนาเกมออนไลน์</p>
+      <p>สามารถติดต่อผ่าน Discord: <strong>nillnight</strong></p>
+      <button class="close-info" onclick="closeDeveloperInfo()">ปิด</button>
+    </div>
+  </div>
+
+  <script>
+    // ฟังก์ชันการเข้าสู่ระบบ
+    function login() {
+      const username = document.getElementById('username').value;
+      const password = document.getElementById('password').value;
+
+      if (username && password) {
+        document.getElementById('login-signup-container').style.display = 'none';
+        document.getElementById('game-container').style.display = 'block';
+      } else {
+        alert('กรุณากรอกข้อมูลให้ครบถ้วน');
+      }
+    }
+
+    // ฟังก์ชันการสมัครสมาชิก
+    function signup() {
+      const newUsername = document.getElementById('new-username').value;
+      const newPassword = document.getElementById('new-password').value;
+
+      if (newUsername && newPassword) {
+        alert('สมัครสมาชิกเรียบร้อย');
+        document.getElementById('signup-form').style.display = 'none';
+        document.getElementById('login-signup-container').style.display = 'block';
+      } else {
+        alert('กรุณากรอกข้อมูลให้ครบถ้วน');
+      }
+    }
+
+    // ฟังก์ชันแสดงฟอร์มสมัครสมาชิก
+    function showSignupForm() {
+      document.getElementById('signup-form').style.display = 'block';
+    }
+
+    // ฟังก์ชันการสุ่มเลขโชคดี
+    function generateLuckyNumber() {
+      const nickname = document.getElementById('nickname-input').value;
+      if (nickname) {
+        const luckyNumber = Math.floor(Math.random() * 20) + 1; // สุ่มเลขจาก 1-20
+        document.getElementById('lucky-number-result').innerHTML = `เลขโชคดีของคุณ: ${luckyNumber}`;
+        showFortune(luckyNumber);
+      } else {
+        alert('กรุณากรอกชื่อเล่น');
+      }
+    }
+
+    // ฟังก์ชันทำนายดวงจากเลขโชคดี
+    function showFortune(luckyNumber) {
+      const fortunes = [
+        "โชคดีมาก! วันนี้คุณจะได้รับข่าวดี.",
+        "วันนี้เป็นวันที่ดีในการเริ่มต้นสิ่งใหม่ ๆ.",
+        "ระวังปัญหาการเงินในช่วงนี้.",
+        "มีโอกาสได้รับการสนับสนุนจากผู้ใหญ่.",
+        "วันพรุ่งนี้จะดีกว่า.",
+        "ระวังเรื่องสุขภาพในช่วงนี้.",
+        "จะได้พบเพื่อนเก่า.",
+        "โชคดีในเรื่องความรัก.",
+        "มีโอกาสเดินทางไปสถานที่ใหม่.",
+        "การทำงานของคุณจะได้รับการยอมรับ.",
+        "เป็นวันที่ดีในการลงทุน.",
+        "ให้ความสำคัญกับครอบครัวมากขึ้น.",
+        "ระวังคนที่คุณไม่คาดคิด.",
+        "จะมีโอกาสได้พบเจอคนที่คุณคิดถึง.",
+        "มีโอกาสได้รับการปรับตำแหน่ง.",
+        "โชคดีในการเดิมพัน.",
+        "ให้ระวังปัญหาทางอารมณ์.",
+        "จะมีข่าวดีจากทางไกล.",
+        "จะมีความสำเร็จในเรื่องการเรียนหรือการทำงาน.",
+        "มีโอกาสพบรักครั้งใหม่."
+      ];
+      const fortuneMessage = fortunes[luckyNumber - 1];
+      document.getElementById('fortune-result').innerHTML = fortuneMessage;
+    }
+
+    // ฟังก์ชันแสดงไพ่ทั้งหมด
+    function displayCards() {
+      const container = document.getElementById('cards-container');
+      for (let i = 1; i <= 20; i++) {
+        const cardElement = document.createElement('div');
+        cardElement.className = 'card';
+        cardElement.innerHTML = `ไพ่ ${i}`;
+        cardElement.setAttribute("onclick", `showResult(${i})`);
+        container.appendChild(cardElement);
+      }
+    }
+
+    // ฟังก์ชันแสดงผลเมื่อคลิกที่ไพ่
+    function showResult(index) {
+      const resultContainer = document.getElementById('result');
+      resultContainer.innerHTML = `
+        <h2>ผลการทำนายจากไพ่ ${index}</h2>
+        <p>ทำนายดวงจากไพ่หมายเลข ${index}</p>
+      `;
+    }
+
+    // เรียกฟังก์ชันในการแสดงไพ่
+    displayCards();
+
+    // ฟังก์ชันเปิดข้อมูลนักพัฒนา
+    function showDeveloperInfo() {
+      document.getElementById('developer-info').style.display = 'block';
+    }
+
+    // ฟังก์ชันปิดข้อมูลนักพัฒนา
+    function closeDeveloperInfo() {
+      document.getElementById('developer-info').style.display = 'none';
+    }
+  </script>
+</body>
+</html>
